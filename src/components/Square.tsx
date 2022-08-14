@@ -6,13 +6,22 @@ type PropsType = {
   column: number
   row: number
   isHit: boolean
+  isOccupied: boolean
   onClick: (e: React.MouseEvent) => void
 }
 
-const Square = ({ column, row, isHit, onClick }: PropsType) => {
-  const classNames = `${classes.square} ${
-    isHit ? classes.hitSquare : classes.activeSquare
-  }`
+const Square = ({ column, row, isHit, isOccupied, onClick }: PropsType) => {
+  let classNames = `${classes.square} `
+
+  if (isHit) {
+    if (isOccupied) {
+      classNames += ` ${classes.occupiedSquare}`
+    } else {
+      classNames += ` ${classes.hitSquare}`
+    }
+  } else {
+    classNames += ` ${classes.activeSquare}`
+  }
 
   return (
     <div
