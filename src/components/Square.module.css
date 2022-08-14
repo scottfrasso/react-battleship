@@ -1,0 +1,23 @@
+.square {
+  display: block;
+  align-items: center;
+  text-align: right;
+  padding: 5%;
+  background-color: #fff;
+  color: black;
+}
+
+.hitSquare {
+  aspect-ratio: 1/ 1;
+  background-color: black;
+}
+
+.activeSquare {
+  aspect-ratio: 1/ 1;
+  border: black;
+  border-style: solid;
+}
+
+.activeSquare:hover {
+  background-color: grey;
+}

@@ -1,0 +1,16 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 2%;
+}
+
+.topRow {
+  font-size: x-large;
+  text-align: center;
+}
+
+.leftRow {
+  padding-top: 30%;
+  font-size: x-large;
+  text-align: right;
+}
