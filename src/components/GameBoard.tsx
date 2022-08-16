@@ -2,102 +2,18 @@ import React, { useState } from 'react'
 import { findIndex } from 'lodash'
 
 import Square from './Square'
-import { getRandomNumber } from './utils'
-import { HitSquare, Ship, ShipSquare } from './types'
+
+import { HitSquare } from './types'
+import Status from './Status'
+import LogicalGameBoard from './board/logical-game-board'
 
 import classes from './GameBoard.module.css'
-import { isDebuggerStatement } from 'typescript'
 
-const ship1: Ship = {
-  locations: [
-    {
-      row: 1,
-      column: 3,
-    },
-  ],
-}
-
-const isSquareOccupied = (
-  ships: Ship[],
-  row: number,
-  column: number
-): boolean => {
-  for (const ship of ships) {
-    if (
-      findIndex(ship.locations, (shipSquare: ShipSquare) => {
-        return shipSquare.row === row && shipSquare.column === column
-      }) >= 0
-    ) {
-      return true
-    }
-  }
-
-  return false
-}
-
-const ships: Ship[] = []
-const shipLengths = [5, 4, 4]
-
-const findLocationForShip = (shipLength: number): Ship | undefined => {
-  const startingRow = getRandomNumber(10 - shipLength)
-  const startingColumn = getRandomNumber(10 - shipLength)
-
-  // try along the row
-  const locationsAlongRow: ShipSquare[] = []
-  let fitsAlongRow = true
-  for (let i = startingRow; i < startingRow + shipLength; i++) {
-    if (isSquareOccupied(ships, i, startingColumn)) {
-      fitsAlongRow = false
-      break
-    }
-    locationsAlongRow.push({ row: i, column: startingColumn })
-  }
-
-  // try to fit it along the column
-  const locationsAlongColumn: ShipSquare[] = []
-  let fitsAlongColumn = true
-  for (let j = startingColumn; j < startingColumn + shipLength; j++) {
-    if (isSquareOccupied(ships, startingRow, j)) {
-      fitsAlongColumn = false
-      break
-    }
-    locationsAlongColumn.push({ row: startingRow, column: j })
-  }
-
-  debugger
-
-  if (!fitsAlongRow && !fitsAlongColumn) {
-    return undefined
-  }
-
-  const possibleLocations: ShipSquare[][] = []
-  if (fitsAlongRow) {
-    possibleLocations.push(locationsAlongRow)
-  }
-
-  if (fitsAlongColumn) {
-    possibleLocations.push(locationsAlongColumn)
-  }
-
-  const randomIndex = getRandomNumber(possibleLocations.length)
-
-  return {
-    locations: possibleLocations[randomIndex],
-  }
-}
-
-for (const shipLength of shipLengths) {
-  while (true) {
-    const ship = findLocationForShip(shipLength)
-    if (ship) {
-      ships.push(ship)
-      break
-    }
-  }
-}
+const logicalGameBoard = new LogicalGameBoard()
 
 const GameBoard = () => {
   const [squareState, setSquareState] = useState<HitSquare[]>([])
+  const [gameOver, setGameOver] = useState(false)
 
   const columns: string[] = []
   const rows: string[] = []
@@ -115,6 +31,11 @@ const GameBoard = () => {
     const hitSquares: HitSquare[] = [...squareState]
     hitSquares.push({ row, column })
     setSquareState(hitSquares)
+
+    logicalGameBoard.hitSquare(row, column)
+    if (logicalGameBoard.isGameOver()) {
+      setGameOver(true)
+    }
   }
 
   const isSquareHit = (row: number, column: number): boolean => {
@@ -156,7 +77,7 @@ const GameBoard = () => {
           column={j}
           row={i}
           isHit={isSquareHit(i, j)}
-          isOccupied={isSquareOccupied(ships, i, j)}
+          isOccupied={logicalGameBoard.isSquareOccupied(i, j)}
           onClick={onSquareClicked.bind(null, i, j)}
         />
       )
@@ -165,9 +86,14 @@ const GameBoard = () => {
   }
 
   return (
-    <div className={classes.grid} key='something'>
-      {divRows}
-    </div>
+    <>
+      <div>
+        <Status gameOver={gameOver} />
+      </div>
+      <div className={classes.grid} key='something'>
+        {divRows}
+      </div>
+    </>
   )
 }
 

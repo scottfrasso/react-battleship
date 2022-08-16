@@ -3,8 +3,6 @@ export type HitSquare = {
   column: number
 }
 
-export type ShipSquare = HitSquare
-
-export type Ship = {
-  locations: ShipSquare[]
+export type ShipSquare = HitSquare & {
+  isHit: boolean
 }

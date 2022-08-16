@@ -2,6 +2,12 @@
   display: grid;
   grid-template-columns: repeat(11, 1fr);
   gap: 2%;
+
+  padding: auto;
+
+  min-width: 50em;
+  width: 80%;
+  height: 80%;
 }
 
 .topRow {
