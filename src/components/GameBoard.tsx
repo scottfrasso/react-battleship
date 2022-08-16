@@ -30,6 +30,9 @@ const GameBoard = () => {
   }
 
   const onSquareClicked = (row: number, column: number) => {
+    if (gameOver) {
+      return
+    }
     if (isSquareHit(row, column)) {
       return
     }
@@ -85,6 +88,7 @@ const GameBoard = () => {
           isHit={isSquareHit(i, j)}
           isOccupied={logicalGameBoard.isSquareOccupied(i, j)}
           onClick={onSquareClicked.bind(null, i, j)}
+          gameOver={gameOver}
         />
       )
     }

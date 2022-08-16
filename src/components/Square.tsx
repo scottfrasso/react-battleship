@@ -7,10 +7,18 @@ type PropsType = {
   row: number
   isHit: boolean
   isOccupied: boolean
+  gameOver: boolean
   onClick: (e: React.MouseEvent) => void
 }
 
-const Square = ({ column, row, isHit, isOccupied, onClick }: PropsType) => {
+const Square = ({
+  column,
+  row,
+  isHit,
+  isOccupied,
+  gameOver,
+  onClick,
+}: PropsType) => {
   let classNames = `${classes.square} `
 
   if (isHit) {
@@ -20,15 +28,13 @@ const Square = ({ column, row, isHit, isOccupied, onClick }: PropsType) => {
       classNames += ` ${classes.hitSquare}`
     }
   } else {
-    classNames += ` ${classes.activeSquare}`
+    if (!gameOver) {
+      classNames += ` ${classes.activeSquare}`
+    }
   }
 
   return (
-    <div
-      className={classNames}
-      key={`${row}, ${column}`}
-      onClick={onClick}
-    >{`${row}, ${column}`}</div>
+    <div className={classNames} key={`${row}, ${column}`} onClick={onClick} />
   )
 }
 

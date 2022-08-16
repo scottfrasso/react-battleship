@@ -5,7 +5,7 @@
   text-align: right;
   padding: 5%;
 
-  color: black;
+  background-color: #fff;
 
   border: black;
   border-style: solid;
@@ -15,14 +15,10 @@
   background-color: black;
 }
 
-.activeSquare {
-  background-color: #fff;
-}
-
 .activeSquare:hover {
   background-color: grey;
 }
 
 .occupiedSquare {
-  background-color: green;
+  background-color: red;
 }
