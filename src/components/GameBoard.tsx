@@ -9,7 +9,7 @@ import LogicalGameBoard from './board/logical-game-board'
 
 import classes from './GameBoard.module.css'
 
-const logicalGameBoard = new LogicalGameBoard()
+let logicalGameBoard = new LogicalGameBoard()
 
 const GameBoard = () => {
   const [squareState, setSquareState] = useState<HitSquare[]>([])
@@ -21,6 +21,12 @@ const GameBoard = () => {
   for (let c = 0; c < 10; c++) {
     columns.push(String.fromCharCode(c + 65))
     rows.push(c.toString())
+  }
+
+  const onGameReset = () => {
+    setSquareState([])
+    logicalGameBoard = new LogicalGameBoard()
+    setGameOver(false)
   }
 
   const onSquareClicked = (row: number, column: number) => {
@@ -88,7 +94,7 @@ const GameBoard = () => {
   return (
     <>
       <div>
-        <Status gameOver={gameOver} />
+        <Status gameOver={gameOver} onResetClick={onGameReset} />
       </div>
       <div className={classes.grid} key='something'>
         {divRows}
