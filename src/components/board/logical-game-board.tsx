@@ -4,6 +4,9 @@ import { getRandomNumber } from '../utils'
 import { ShipSquare } from '../types'
 import Ship from './ship'
 
+/**
+ * Holds all the logic for operating a one sided version of battleship.
+ */
 class LogicalGameBoard {
   private ships: Ship[]
   private shipLengths: number[]
@@ -23,6 +26,11 @@ class LogicalGameBoard {
     }
   }
 
+  /**
+   * Checks if all the ships have been sunk yet.
+   *
+   * @returns {boolean} True if all ships have been sunk
+   */
   public isGameOver(): boolean {
     for (const ship of this.ships) {
       if (!ship.isShipSunk()) {
@@ -33,6 +41,14 @@ class LogicalGameBoard {
     return true
   }
 
+  /**
+   * Place a hit on the square. If there is a ship in that
+   * square mark that part of the ship as being "hit".
+   *
+   * @param row The row number of the square
+   * @param column The row number of the square
+   * @returns
+   */
   public hitSquare(row: number, column: number): void {
     const shipInSquare = this.getShipInSquare(row, column)
     if (!shipInSquare) {
@@ -41,6 +57,13 @@ class LogicalGameBoard {
     shipInSquare.hitShip(row, column)
   }
 
+  /**
+   * Gets a ship that occupies the given square.
+   *
+   * @param row The row number of the square
+   * @param column The row number of the square
+   * @returns {Ship | null} Returns a ship if one exists in that square, null if not
+   */
   private getShipInSquare(row: number, column: number): Ship | null {
     for (const ship of this.ships) {
       if (
@@ -55,6 +78,13 @@ class LogicalGameBoard {
     return null
   }
 
+  /**
+   * Checks to see if a ship exists in a given square.
+   *
+   * @param row
+   * @param column
+   * @returns {boolean} True if a ship occupies the given square
+   */
   public isSquareOccupied(row: number, column: number): boolean {
     return this.getShipInSquare(row, column) !== null
   }

@@ -1,0 +1,21 @@
+.center {
+  text-align: center;
+  min-width: 50em;
+  padding-right: 10em;
+}
+
+.title {
+  display: inline;
+  padding: 10px;
+  font-size: x-large;
+}
+
+.resetButton {
+  transition-duration: 0.4s;
+  margin-bottom: 1em;
+}
+
+.resetButton:hover:enabled {
+  background-color: #4caf50; /* Green */
+  color: white;
+}

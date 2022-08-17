@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { findIndex } from 'lodash'
 
 import Square from './Square'
@@ -9,19 +9,26 @@ import LogicalGameBoard from './board/logical-game-board'
 
 import classes from './GameBoard.module.css'
 
+/** Initialize the gameboard and the rows/columns
+ * If this were a real product this could probably
+ * live inside another package outside of this react project.
+ */
 let logicalGameBoard = new LogicalGameBoard()
+
+const columns: string[] = []
+const rows: string[] = []
+
+for (let c = 0; c < 10; c++) {
+  // Set the columns A-J
+  columns.push(String.fromCharCode(c + 65))
+  // Add 1 so the rows are 1-10
+  rows.push((c + 1).toString())
+}
 
 const GameBoard = () => {
   const [squareState, setSquareState] = useState<HitSquare[]>([])
   const [gameOver, setGameOver] = useState(false)
-
-  const columns: string[] = []
-  const rows: string[] = []
-
-  for (let c = 0; c < 10; c++) {
-    columns.push(String.fromCharCode(c + 65))
-    rows.push(c.toString())
-  }
+  const [gameStarted, setGameStarted] = useState(false)
 
   const onGameReset = () => {
     setSquareState([])
@@ -30,6 +37,8 @@ const GameBoard = () => {
   }
 
   const onSquareClicked = (row: number, column: number) => {
+    setGameStarted(true)
+
     if (gameOver) {
       return
     }
@@ -55,6 +64,7 @@ const GameBoard = () => {
     )
   }
 
+  // Setup all the squares of the Gameboard
   const divRows: React.ReactNode[] = []
   for (let i = -1; i < 10; i++) {
     const divChildren = []
@@ -81,6 +91,7 @@ const GameBoard = () => {
         )
         continue
       }
+      // Render a playable square
       divChildren.push(
         <Square
           column={j}
@@ -98,11 +109,13 @@ const GameBoard = () => {
   return (
     <>
       <div>
-        <Status gameOver={gameOver} onResetClick={onGameReset} />
+        <Status
+          gameStarted={gameStarted}
+          gameOver={gameOver}
+          onResetClick={onGameReset}
+        />
       </div>
-      <div className={classes.grid} key='something'>
-        {divRows}
-      </div>
+      <div className={classes.grid}>{divRows}</div>
     </>
   )
 }

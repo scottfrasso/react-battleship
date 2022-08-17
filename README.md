@@ -6,8 +6,8 @@ https://scottfrasso.github.io/react-battleship/
 
 ## Description
 
-This was written as part of a code test as part of the interview process. I really only
-focused on the logic and functionality of this. The CSS/design is not what I focused on
+This was written as part of a code test during the interview process for a job. I really
+only focused on the logic and functionality of this. The CSS/design is not what I focused on
 here.
 
 # To install this
