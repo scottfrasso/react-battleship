@@ -28,6 +28,7 @@ const Status = ({ gameStarted, gameOver, onResetClick }: PropsType) => {
       >
         Reset
       </button>
+      <p>Black = Miss, Red = Miss</p>
     </div>
   )
 }
